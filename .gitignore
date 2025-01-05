@@ -28,5 +28,4 @@ coverage
 *.sw?
 
 *.tsbuildinfo
-index.html
 .env
