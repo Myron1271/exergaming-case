@@ -1,0 +1,9 @@
+/*HIER  KOMT BODY, HTML EN ROOT STYLING*/
+
+body, html {
+  height: 100vh;
+  margin: 0;
+  font-family: Verdana, sans-serif;
+  background: linear-gradient(to bottom right, #f5f7fa, #c3cfe2);
+  color: #333;
+}

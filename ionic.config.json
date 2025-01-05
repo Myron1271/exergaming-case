@@ -1,0 +1,7 @@
+{
+  "name": "Exergaming Case App",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "custom"
+}
