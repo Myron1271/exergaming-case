@@ -1,9 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import MapView from '@/views/MapView.vue'
-import QRCodeScan from '../views/QRCodeScan.vue'
-import AboutView from '../views/AboutView.vue'
-import TotalPointsView from '../views/TotalPointsView.vue'
 import HomeView from '../views/HomeView.vue'
+import AccountView from '..//views/AccountView.vue'
 import FirstMurder from '../views/FirstMurder.vue'
 import SecondMurder from '../views/SecondMurder.vue'
 import ThirdMurder from '../views/ThirdMurder.vue'
@@ -26,6 +24,11 @@ const router = createRouter({
       path: '/map',
       name: 'map',
       component: MapView,
+    },
+    {
+      path: '/account',
+      name: 'account',
+      component: AccountView,
     },
     {
       path: '/firstmurder',
