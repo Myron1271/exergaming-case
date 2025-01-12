@@ -42,6 +42,7 @@ export default {
         { id: 'ThirdMurder', lat: 51.004262, lng: 5.852556, route: 'thirdmurder', title: 'Derde Marker' },
         { id: 'MurdererFound', lat: 51.005450, lng: 5.851511, route: 'murdererfound', title: 'Vierde Marker' },
       ],
+      hasRefreshed: false, // Controleer of een refresh al is uitgevoerd
     };
   },
   methods: {
@@ -120,7 +121,7 @@ export default {
         if (distance <= 25) {
           infoWindow.open(this.map, marker);
         } else {
-          this.infoWindow.close();
+          infoWindow.close();
         }
       });
 
@@ -199,7 +200,13 @@ export default {
     },
   },
   mounted() {
-    this.initializeMap();
+    if (!localStorage.getItem('hasRefreshed')) {
+      localStorage.setItem('hasRefreshed', 'true');
+      window.location.reload();
+    } else {
+      this.initializeMap();
+      localStorage.removeItem('hasRefreshed');
+    }
   },
 };
 </script>

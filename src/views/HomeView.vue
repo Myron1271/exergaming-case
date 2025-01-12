@@ -11,7 +11,7 @@
         <button :disabled="!name" @click="startGame">Begin</button>
       </div>
     </div>
-  </template>
+</template>
   
   <script>
   import { Geolocation } from '@capacitor/geolocation';
