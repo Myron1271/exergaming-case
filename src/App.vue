@@ -4,11 +4,11 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <template>
   <div id="app-container">
-    <RouterView />
+    <RouterView :key="$route.fullPath" />
     <nav>
       <RouterLink to="/map">Map</RouterLink>
       <!-- <RouterLink to="/qrcodescan">QR Code Scan</RouterLink> -->
-      <RouterLink to="/totalpoints">Je Punten</RouterLink>
+      <RouterLink to="/account">Account</RouterLink>
       <!-- <RouterLink to="/about">About</RouterLink> -->
     </nav>
   </div>
