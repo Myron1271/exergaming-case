@@ -47,7 +47,7 @@ export default {
       markerData: [
         { id: 'FirstMurder', lat: 51.0032273981703, lng: 5.854381535488583, route: 'firstmurder', title: 'En zo begint het.' },
         { id: 'SecondMurder', lat: 51.003596, lng: 5.853474, route: 'secondmurder', title: 'Wie is de volgende?' },
-        { id: 'ThirdMurder', lat: 51.004262, lng: 5.852556, route: 'thirdmurder', title: 'Dit moet stoppen!' },
+        { id: 'ThirdMurder', lat: 51.004262, lng: 5.852556, route: 'thirdmurder', title: 'De laatste?' },
         { id: 'MurdererFound', lat: 51.005450, lng: 5.851511, route: 'murdererfound', title: 'Zou dit hem zijn?' },
       ],
       hasRefreshed: false, // Controleer of een refresh al is uitgevoerd

@@ -2,7 +2,7 @@
   <div class="modal-overlay">
     <div class="modal">
       <slot></slot>
-      <ion-button v-if="!$route.meta.hideButton" @click="$emit('close')">Sluiten</ion-button>
+      <ion-button shape="round" v-if="!$route.meta.hideButton" @click="$emit('close')">Sluiten</ion-button>
     </div>
   </div>
 </template>
@@ -33,6 +33,10 @@ export default {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
   width: 85%;
   text-align: center;
+}
+
+ion-button {
+  text-transform: none;
 }
 
 </style>
