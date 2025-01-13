@@ -1,30 +1,38 @@
 <template>
   <div id="map" style="width: 100%; height: 100vh;"></div>
   <Modal v-if="showWelcomeModal" @close="closeModal">
-    <h2>Welkom bij het team, Recherche {{ userName }}</h2>
-    <p>
+    <p class="modalTitle"><b>Welkom bij het team {{ userName }}!</b></p>
+    <p class="modalText">
       Je kan meteen aan de slag. Het lijkt erop dat er vanmorgen een lichaam
-      gevonden is. Ik heb de coördinaten naar je doorgestuurd. Je kan ze
-      vinden op de map.
+      gevonden is. <br> 
+      Ik heb de <b>coördinaten</b> naar je doorgestuurd. Je kan ze
+      vinden op de <b>map.</b>
     </p>
-    <button @click="closeModal">Aan de slag</button>
+    <ion-button size="medium" shape="round" @click="closeModal">Aan de slag!</ion-button>
   </Modal>
-  <button
+  <ion-button
     @click="toggleFollow"
-    :class="isFollowing ? 'success' : 'primary'"
-    style="position: absolute; z-index: 1000; bottom: 70px; right: 20px;"
+    style="position: absolute; bottom: 70px; right: 20px;"
   >
-    {{ isFollowing ? 'Stop het volgen' : 'Ga naar mijn locatie' }}
-  </button>
+    {{ isFollowing ? 
+    'Live Volgen' 
+    : 
+    'Ga naar live locatie' 
+    }}
+  </ion-button>
 </template>
 
 <script>
 import { Geolocation } from '@capacitor/geolocation';
 import Modal from '@/components/Modal.vue';
+import { IonButton } from '@ionic/vue';
 
 export default {
   name: 'MapView',
-  components: { Modal },
+  components: { 
+    Modal,
+    IonButton, 
+  },
   data() {
     return {
       map: null,
@@ -37,10 +45,10 @@ export default {
       userName: localStorage.getItem('userName'),
       visibleMarkers: JSON.parse(localStorage.getItem('visibleMarkers')) || ['FirstMurder'],
       markerData: [
-        { id: 'FirstMurder', lat: 51.0032273981703, lng: 5.854381535488583, route: 'firstmurder', title: 'Eerste Marker' },
-        { id: 'SecondMurder', lat: 51.003596, lng: 5.853474, route: 'secondmurder', title: 'Tweede Marker' },
-        { id: 'ThirdMurder', lat: 51.004262, lng: 5.852556, route: 'thirdmurder', title: 'Derde Marker' },
-        { id: 'MurdererFound', lat: 51.005450, lng: 5.851511, route: 'murdererfound', title: 'Vierde Marker' },
+        { id: 'FirstMurder', lat: 51.0032273981703, lng: 5.854381535488583, route: 'firstmurder', title: 'En zo begint het.' },
+        { id: 'SecondMurder', lat: 51.003596, lng: 5.853474, route: 'secondmurder', title: 'Wie is de volgende?' },
+        { id: 'ThirdMurder', lat: 51.004262, lng: 5.852556, route: 'thirdmurder', title: 'Dit moet stoppen!' },
+        { id: 'MurdererFound', lat: 51.005450, lng: 5.851511, route: 'murdererfound', title: 'Zou dit hem zijn?' },
       ],
       hasRefreshed: false, // Controleer of een refresh al is uitgevoerd
     };
@@ -92,10 +100,10 @@ export default {
       });
 
       const infoWindow = new google.maps.InfoWindow({
-        content: `
+        content: ` 
           <div style="text-align: center">
-            <p>Je bent in de buurt van ${title}.</p>
-            <button id="navigateButton-${id}" style="padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Ga verder</button>
+            <p style="font-size: 1.5rem; font-weight: bold; color: var(--colorText)">${title}</p>
+            <ion-button style="text-transform: none; font-size: 1rem" size="medium" shape="round" id="navigateButton-${id}">Start het onderzoek</ion-button>
           </div>
         `,
       });
@@ -212,40 +220,20 @@ export default {
 </script>
 
 <style scoped>
-button {
-  position: absolute;
-  bottom: 70px;
-  right: 20px;
-  z-index: 1000;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 50px;
-  font-size: 16px;
-  font-weight: bold;
-  color: white;
-  background-color: #007bff;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
 
-button:focus {
-  outline: none;
-}
+  .modalTitle {
+    color: var(--colorPrimary);
+    margin: 0;
+    text-align: left !important;
+  }
 
-button:hover {
-  background-color: #0056b3;
-}
+  .modalText {
+    margin: 0.3rem 0 0.3rem 0;
+    text-align: left !important;
+  }
 
-button:active {
-  background-color: #004085;
-}
+  ion-button {
+    margin: 0.5rem 0 0 0;
+  }
 
-button.success {
-  background-color: #28a745;
-}
-
-button.primary {
-  background-color: #007bff;
-}
 </style>

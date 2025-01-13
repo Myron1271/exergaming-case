@@ -1,9 +1,20 @@
 /*HIER  KOMT BODY, HTML EN ROOT STYLING*/
 
+:root {
+  --colorPrimary: #1f4c8a;
+  --colorBackground: #f5f7fa;
+  --colorBackground2: #c3cfe2;
+  --colorText: #313b49;
+}
+
 body, html {
   height: 100vh;
   margin: 0;
-  font-family: Verdana, sans-serif;
-  background: linear-gradient(to bottom right, #f5f7fa, #c3cfe2);
-  color: #333;
+  /* font-family: 'poppins', sans-serif; */
+  --ion-dynamic-font: var(--ion-default-dynamic-font);
+  --ion-font-family: 'poppins', sans-serif;
+  background: var(--colorBackground);
+  background: linear-gradient(to bottom right, var(--colorBackground), var(--colorBackground2));
+  color: var(--colorText);
 }
+

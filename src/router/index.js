@@ -6,6 +6,7 @@ import FirstMurder from '../views/FirstMurder.vue'
 import SecondMurder from '../views/SecondMurder.vue'
 import ThirdMurder from '../views/ThirdMurder.vue'
 import MurdererFound from '../views/MurdererFound.vue'
+import IonicVueView from '@/views/IonicVueView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,11 +20,17 @@ const router = createRouter({
       path: '/home',
       name: 'home',
       component: HomeView,
+      meta: {
+        hideNav: true,
+      }
     },
     {
       path: '/map',
       name: 'map',
       component: MapView,
+      meta: {
+        hideButton: true,
+      }
     },
     {
       path: '/account',
@@ -49,6 +56,15 @@ const router = createRouter({
       path: '/murdererfound',
       name: 'murdererfound',
       component: MurdererFound,
+    },
+    {
+      path: '/ionicvue',
+      name: 'ionicvue',
+      component: IonicVueView,
+      meta: {
+        hideNav: true,
+        hideButton: true,
+      }
     },
   ],
 })
