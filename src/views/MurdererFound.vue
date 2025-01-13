@@ -1,6 +1,6 @@
 <template>
   <div class="murdererFound">
-    <p class="murdererFoundTitle">Wie is de volgende?</p>
+    <p class="murdererFoundTitle">Zou dit hem zijn?</p>
     <p class="murdererFoundText">
       Je komt aan op de plek waar de coördinaten je uit het doosje naartoe hebben geleid.  
       De plek voelt rustig en rustgevend aan. Gelukkig zie je geen slachtoffers.  
