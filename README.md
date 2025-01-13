@@ -1,4 +1,4 @@
-# Exergaming Case
+# Exergaming Case | Clue On The Move
 
 This template should help get you started developing with Vue 3 in Vite.
 

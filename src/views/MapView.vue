@@ -3,7 +3,7 @@
   <Modal v-if="showWelcomeModal" @close="closeModal">
     <p class="modalTitle"><b>Welkom bij het team {{ userName }}!</b></p>
     <p class="modalText">
-      Je kan meteen aan de slag. Het lijkt erop dat er vanmorgen een lichaam
+      Je kan meteen aan de slag. Het lijkt erop dat er vanmorgen een persoon
       gevonden is. <br> 
       Ik heb de <b>coördinaten</b> naar je doorgestuurd. Je kan ze
       vinden op de <b>map.</b>
