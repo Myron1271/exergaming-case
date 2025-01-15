@@ -1,7 +1,7 @@
 <template>
   <div class="murdererFound">
     <p class="murdererFoundTitle">Zou dit hem zijn?</p>
-    <p class="murdererFoundText">
+    <p class="murdererFoundText" v-typemachine>
       Je komt aan op de plek waar de coördinaten je uit het doosje naartoe hebben geleid.  
       De plek voelt rustig en rustgevend aan. Gelukkig zie je geen slachtoffers.  
       <br>
@@ -26,7 +26,12 @@
 
     <modal v-if="modalVisible" @close="closeModal">
       <div v-if="currentModal === 1">
-        <p><b>Je bekijkt het object:</b><br><br>Het object is een klein metaal plaatje met erop gekrast: <br><b><i>"Alles eindigt waar het begon."</i></b></p>
+        <p v-typemachine><b>Je bekijkt het object:</b><br><br>Het object is een klein metaal plaatje met erop gekrast: 
+          <br>
+          <b>
+            <i>"Alles eindigt waar het begon."</i>
+          </b>
+        </p>
         <ion-button size="medium" shape="round" @click="goBackToMap">Ga terug naar de Map</ion-button>
       </div>
     </modal>
@@ -44,6 +49,45 @@ export default {
       modalVisible: false,
       currentModal: null,
       userName: localStorage.getItem('userName'),
+    }
+  },
+  directives: {
+    typemachine: {
+      mounted(el) {
+        const text = el.innerHTML;
+        const container = document.createElement('div');
+        container.innerHTML = text;
+        const nodes = Array.from(container.childNodes);
+        el.innerHTML = '';
+        let index = 0;
+
+        const typeWriter = () => {
+          if (index < nodes.length) {
+            const node = nodes[index];
+            if (node.nodeType === Node.TEXT_NODE) {
+              const textContent = node.textContent.split('');
+              let textIndex = 0;
+
+              const typeText = () => {
+                if (textIndex < textContent.length) {
+                  el.innerHTML += textContent[textIndex];
+                  textIndex++;
+                  setTimeout(typeText, 20);
+                } else {
+                  index++;
+                  typeWriter();
+                }
+              };
+              typeText();
+            } else if (node.nodeType === Node.ELEMENT_NODE) {
+              el.appendChild(node.cloneNode(true));
+              index++;
+              typeWriter();
+            }
+          }
+        };
+        typeWriter();
+      }
     }
   },
   methods: {

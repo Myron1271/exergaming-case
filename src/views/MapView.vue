@@ -2,7 +2,7 @@
   <div id="map" style="width: 100%; height: 100vh;"></div>
   <Modal v-if="showWelcomeModal" @close="closeModal">
     <p class="modalTitle"><b>Welkom bij het team {{ userName }}!</b></p>
-    <p class="modalText">
+    <p class="modalText" v-typemachine>
       Je kan meteen aan de slag. Het lijkt erop dat er vanmorgen een persoon
       gevonden is. <br> 
       Ik heb de <b>coördinaten</b> naar je doorgestuurd. Je kan ze
@@ -32,6 +32,45 @@ export default {
   components: { 
     Modal,
     IonButton, 
+  },
+  directives: {
+    typemachine: {
+      mounted(el) {
+        const text = el.innerHTML;
+        const container = document.createElement('div');
+        container.innerHTML = text;
+        const nodes = Array.from(container.childNodes);
+        el.innerHTML = '';
+        let index = 0;
+
+        const typeWriter = () => {
+          if (index < nodes.length) {
+            const node = nodes[index];
+            if (node.nodeType === Node.TEXT_NODE) {
+              const textContent = node.textContent.split('');
+              let textIndex = 0;
+
+              const typeText = () => {
+                if (textIndex < textContent.length) {
+                  el.innerHTML += textContent[textIndex];
+                  textIndex++;
+                  setTimeout(typeText, 20);
+                } else {
+                  index++;
+                  typeWriter();
+                }
+              };
+              typeText();
+            } else if (node.nodeType === Node.ELEMENT_NODE) {
+              el.appendChild(node.cloneNode(true));
+              index++;
+              typeWriter();
+            }
+          }
+        };
+        typeWriter();
+      }
+    }
   },
   data() {
     return {

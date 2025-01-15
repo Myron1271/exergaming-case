@@ -1,7 +1,7 @@
 <template>
     <div class="thirdMurder">
       <p class="thirdMurderTitle">De Laatste?</p>
-      <p class="thirdMurderText">
+      <p class="thirdMurderText" v-typemachine>
         Je nadert het volgende slachtoffer en merkt meteen de overeenkomsten met eerdere de slachtoffers.
         Het slachtoffer ligt op de grond, de blik verstijfd van angst en pijn. 
         Op de buik zie je iets dat onmiddellijk je aandacht trekt: er is ook hier iets gekrast,
@@ -15,9 +15,9 @@
       <ion-button size="small" shape="round" @click="showModal(2)">Bekijk wat het slachtoffer vasthoudt</ion-button>
   
       <modal v-if="modalVisible" @close="closeModal">
-        <p v-if="currentModal === 1"><b>Je bekijkt de buik van het slachtoffer:</b><br><br>Het lijkt erop dat het cijfer <b>4</b> op de buik gekrast is.</p>
+        <p v-if="currentModal === 1" v-typemachine><b>Je bekijkt de buik van het slachtoffer:</b><br><br>Het lijkt erop dat het cijfer <b>4</b> op de buik gekrast is.</p>
         <div v-else>
-          <p><b>Je bekijkt wat het slachtoffer vasthoudt:</b><br><br>Het slachtoffer houdt een doosje vast met een slotje eraan. Het slotje heeft <b>3</b> cijfers nodig.<br> Zou het de <b>3</b> cijfers zijn van de slachtoffers?</p>
+          <p v-typemachine><b>Je bekijkt wat het slachtoffer vasthoudt:</b><br><br>Het slachtoffer houdt een doosje vast met een slotje eraan. Het slotje heeft <b>3</b> cijfers nodig.<br> Zou het de <b>3</b> cijfers zijn van de slachtoffers?</p>
           <ion-input type="text" v-model="code" placeholder="Voer 3 cijfers in" :maxlength="3"></ion-input>
           <br>
           <ion-button shape="round" @click="checkCode">Check de cijfers</ion-button>
@@ -44,6 +44,45 @@ const customFormatter = (inputLength, maxLength) => {
         code: '',
       };
     },
+  directives: {
+    typemachine: {
+      mounted(el) {
+        const text = el.innerHTML;
+        const container = document.createElement('div');
+        container.innerHTML = text;
+        const nodes = Array.from(container.childNodes);
+        el.innerHTML = '';
+        let index = 0;
+
+        const typeWriter = () => {
+          if (index < nodes.length) {
+            const node = nodes[index];
+            if (node.nodeType === Node.TEXT_NODE) {
+              const textContent = node.textContent.split('');
+              let textIndex = 0;
+
+              const typeText = () => {
+                if (textIndex < textContent.length) {
+                  el.innerHTML += textContent[textIndex];
+                  textIndex++;
+                  setTimeout(typeText, 20);
+                } else {
+                  index++;
+                  typeWriter();
+                }
+              };
+              typeText();
+            } else if (node.nodeType === Node.ELEMENT_NODE) {
+              el.appendChild(node.cloneNode(true));
+              index++;
+              typeWriter();
+            }
+          }
+        };
+        typeWriter();
+      }
+    }
+  },
     methods: {
       showModal(modalId) {
         this.currentModal = modalId;

@@ -1,10 +1,10 @@
 <template>
     <div class="secondMurder">
       <p class="secondMurderTitle">Wie is de volgende?</p>
-      <p class="secondMurderText">
+      <p class="secondMurderText" v-typemachine>
         De coördinaten op het blaadje kloppen. Weer een slachtoffer.  
         De lucht is kil en zwaar. Je hebt het gevoel dat iemand je in de gaten houdt, maar er is niemand om je heen.  
-        Je merkt op dat slachtoffer nog niet lang geleden om het leven gebracht.  
+        Je merkt op dat slachtoffer nog niet lang geleden om het leven is gebracht.  
         <br>
         <br>
         Op de buik van het slachtoffer lijkt iets te zijn gekrast.  
@@ -13,7 +13,7 @@
 
       <modal v-if="modalVisible" @close="closeModal">
         <div v-if="currentModal === 1">
-          <p><b>Je kijkt naar de buik:</b><br><br>Het lijkt er op dat het cijfer <b>1</b> op de buik is gekrast.</p>
+          <p v-typemachine><b>Je kijkt naar de buik:</b><br><br>Het lijkt er op dat het cijfer <b>1</b> op de buik is gekrast.</p>
           <ion-button size="medium" shape="round" @click="goBackToMap">Ga terug naar de Map</ion-button>
         </div>
       </modal>
@@ -32,6 +32,45 @@ import Modal from '@/components/Modal.vue';
         currentModal: null,
       }
     },
+  directives: {
+    typemachine: {
+      mounted(el) {
+        const text = el.innerHTML;
+        const container = document.createElement('div');
+        container.innerHTML = text;
+        const nodes = Array.from(container.childNodes);
+        el.innerHTML = '';
+        let index = 0;
+
+        const typeWriter = () => {
+          if (index < nodes.length) {
+            const node = nodes[index];
+            if (node.nodeType === Node.TEXT_NODE) {
+              const textContent = node.textContent.split('');
+              let textIndex = 0;
+
+              const typeText = () => {
+                if (textIndex < textContent.length) {
+                  el.innerHTML += textContent[textIndex];
+                  textIndex++;
+                  setTimeout(typeText, 20);
+                } else {
+                  index++;
+                  typeWriter();
+                }
+              };
+              typeText();
+            } else if (node.nodeType === Node.ELEMENT_NODE) {
+              el.appendChild(node.cloneNode(true));
+              index++;
+              typeWriter();
+            }
+          }
+        };
+        typeWriter();
+      }
+    }
+  },
     methods: {
       showModal(modalId) {
         this.currentModal = modalId;
