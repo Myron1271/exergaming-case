@@ -10,15 +10,8 @@
     </p>
     <ion-button size="medium" shape="round" @click="closeModal">Aan de slag!</ion-button>
   </Modal>
-  <ion-button
-    @click="toggleFollow"
-    style="position: absolute; bottom: 70px; right: 20px;"
-  >
-    {{ isFollowing ? 
-    'Live Volgen' 
-    : 
-    'Ga naar live locatie' 
-    }}
+  <ion-button @click="toggleFollow" style="position: absolute; bottom: 70px; right: 20px;">
+    {{ isFollowing ? 'Live Volgen' : 'Ga naar live locatie' }}
   </ion-button>
 </template>
 

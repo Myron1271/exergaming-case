@@ -5,7 +5,7 @@
       Je komt aan op de plek waar de coördinaten je uit het doosje naartoe hebben geleid.  
       De plek voelt rustig en rustgevend aan. Gelukkig zie je geen slachtoffers.  
       <br>
-      Totdat je ineens hoor een stem achter je hoort:  
+      Totdat je ineens een stem achter je hoort:  
       <br>
       <i>"Welkom, {{ userName }},
         je bent sneller dan ik dacht. Maar dit is nog niet het einde."</i>
@@ -13,7 +13,7 @@
       <br>
       Hij begint te praten over zijn motieven, zichzelf noemt hij zich "rechtvaardig".
       <br>
-      <i>"Ze waren niet onschuldig. Geen van hen. Dit alles is slechts een stap in een veel groter spel."</i>
+      <i>"Ze waren niet onschuldig. Geen van hen. Dit alles is slechts een stap in een veel groter spel!"</i>
       <br>
       <br>
       Plotseling maakt hij een beweging en gooit iets op de grond. 
@@ -22,7 +22,11 @@
       <br>
       Het enige wat je ziet is iets glinsteren op de grond.      
     </p>
+    <ion-button size="small" shape="round" color="medium" @click="startSpeak">Lees voor</ion-button>
+    <ion-button size="small" shape="round" color="danger" v-if="startedSpeaking" @click="stopSpeaking">Stop</ion-button>
+    <br>
     <ion-button size="small" shape="round" @click="showModal(1)">Kijk naar het object op de grond</ion-button>
+    
 
     <modal v-if="modalVisible" @close="closeModal">
       <div v-if="currentModal === 1">
@@ -39,7 +43,8 @@
 </template>
 
 <script>
-import Modal from '@/components/Modal.vue';
+  import { TextToSpeech } from '@capacitor-community/text-to-speech';
+  import Modal from '@/components/Modal.vue';
 
 export default {
   name: 'MurdererFound',
@@ -49,6 +54,20 @@ export default {
       modalVisible: false,
       currentModal: null,
       userName: localStorage.getItem('userName'),
+      text: `
+      Je komt aan op de plek waar de coördinaten je uit het doosje naartoe hebben geleid.  
+      De plek voelt rustig en rustgevend aan. Gelukkig zie je geen slachtoffers.  
+      Totdat je ineens een stem achter je hoort:  
+      Welkom,
+      je bent sneller dan ik dacht. Maar dit is nog niet het einde.
+      Hij begint te praten over zijn motieven, zichzelf noemt hij zich rechtvaardig.
+      Ze waren niet onschuldig. Geen van hen. Dit alles is slechts een stap in een veel groter spel.
+      Plotseling maakt hij een beweging en gooit iets op de grond. 
+      Een rookbom vult de plek, gevolgd door een plotselinge vlam. 
+      Terwijl de rook langzaam verdwijnt, realiseer je je dat hij verdwenen is.
+      Het enige wat je ziet is iets glinsteren op de grond. 
+        `,
+        startedSpeaking: false,
     }
   },
   directives: {
@@ -91,6 +110,19 @@ export default {
     }
   },
   methods: {
+    async startSpeak() {          
+        this.startedSpeaking = true;    
+         await TextToSpeech.speak({
+            text: this.text,
+            rate: 1.0,
+            pitch: 1.0,
+            voice: 313,
+        });
+      },
+    async stopSpeaking() {
+      await TextToSpeech.stop();
+      this.startedSpeaking = false;
+    },
     showModal(modalId) {
       this.currentModal = modalId;
       this.modalVisible = true;

@@ -14,6 +14,9 @@
       <br>
       Naast het hoofd van het slachtoffer lijkt een vies papierenblaadje te liggen met iets erop.
     </p>
+    <ion-button size="small" shape="round" color="medium" @click="startSpeak">Lees voor</ion-button>
+    <ion-button size="small" shape="round" color="danger" v-if="startedSpeaking" @click="stopSpeaking">Stop</ion-button>
+    <br>
     <ion-button size="small" shape="round" @click="showModal(1)">Kijk naar de wonden op de arm</ion-button>
     <ion-button size="small" shape="round" @click="showModal(2)">Kijk kneuzingen op de handen</ion-button>
     <ion-button size="small" shape="round" @click="showModal(3)">Kijk naar de buik</ion-button>
@@ -53,6 +56,7 @@
 
 <script>
 import Modal from '@/components/Modal.vue';
+import { TextToSpeech } from '@capacitor-community/text-to-speech';
 
 export default {
   name: 'FirstMurder',
@@ -63,6 +67,16 @@ export default {
       currentModal: null,
       cleaning: false,
       progress: 0,
+      text: `
+      Je nadert de plaats delict en wordt meteen getroffen door de kille stilte die in de lucht hangt.
+      Iets aan de scène voelt onheilspellend. De omgeving lijkt zorgvuldig gekozen. Er zijn duidelijke sporen van een gevecht,
+      maar ook aanwijzingen die erop wijzen dat de dader meer tijd heeft genomen dan normaal. 
+      Het is alsof elke stap, elk detail, een boodschap bevat die naar jou gericht is.
+      Je weet dat elk detail belangrijk kan zijn.
+      Wat je hier vindt, kan je mogelijk dichter bij de dader brengen.
+      Naast het hoofd van het slachtoffer lijkt een vies papierenblaadje te liggen met iets erop.
+      `,
+      startedSpeaking: false,
     };
   },
   methods: {
@@ -131,7 +145,21 @@ export default {
       }
       return cleanedPixels;
     },
+    async startSpeak() {          
+          this.startedSpeaking = true;    
+           await TextToSpeech.speak({
+              text: this.text,
+              rate: 1.0,
+              pitch: 1.0,
+              voice: 313,
+          });
+        },
+    async stopSpeaking() {
+      await TextToSpeech.stop();
+      this.startedSpeaking = false;
+    },
   },
+  
   directives: {
     typemachine: {
       mounted(el) {

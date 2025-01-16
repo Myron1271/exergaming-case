@@ -9,6 +9,9 @@
         <br>
         Op de buik van het slachtoffer lijkt iets te zijn gekrast.  
       </p>
+      <ion-button size="small" shape="round" color="medium" @click="startSpeak">Lees voor</ion-button>
+      <ion-button size="small" shape="round" color="danger" v-if="startedSpeaking" @click="stopSpeaking">Stop</ion-button>
+      <br>
       <ion-button size="small" shape="round" @click="showModal(1)">Kijk naar de buik</ion-button>
 
       <modal v-if="modalVisible" @close="closeModal">
@@ -22,6 +25,7 @@
   
 <script>
 import Modal from '@/components/Modal.vue';
+import { TextToSpeech } from '@capacitor-community/text-to-speech';
 
   export default {
     name: 'SecondMurder',
@@ -30,6 +34,13 @@ import Modal from '@/components/Modal.vue';
       return {
         modalVisible: false,
         currentModal: null,
+        text: `
+          De coördinaten op het blaadje kloppen. Weer een slachtoffer!  
+          De lucht is kil en zwaar. Je hebt het gevoel dat iemand je in de gaten houdt, maar er is niemand om je heen.  
+          Je merkt op dat slachtoffer nog niet lang geleden om het leven is gebracht.  
+          Op de buik van het slachtoffer lijkt iets te zijn gekrast.
+        `,
+        startedSpeaking: false,
       }
     },
   directives: {
@@ -82,6 +93,19 @@ import Modal from '@/components/Modal.vue';
       },
       goBackToMap() {
         window.location.href = "/map";
+      },
+      async startSpeak() {          
+          this.startedSpeaking = true;    
+           await TextToSpeech.speak({
+              text: this.text,
+              rate: 1.0,
+              pitch: 1.0,
+              voice: 313,
+          });
+        },
+      async stopSpeaking() {
+        await TextToSpeech.stop();
+        this.startedSpeaking = false;
       },
     },
   };
