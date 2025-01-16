@@ -1,4 +1,11 @@
 <template>
+  <div v-if="visible" class="toast-container">
+    <div class="toast-message">
+      <b style="font-size: 16px;">Achievement Ontgrendeld!</b>
+      <br>
+      <i>Marathon</i>
+    </div>
+  </div>
   <div class="murdererFound">
     <p class="murdererFoundTitle">Zou dit hem zijn?</p>
     <p class="murdererFoundText" v-typemachine>
@@ -38,6 +45,13 @@
         </p>
         <ion-button size="medium" shape="round" @click="goBackToMap">Ga terug naar de Map</ion-button>
       </div>
+      <div v-if="currentModal === 1" class="toast-container">
+        <div class="toast-message">
+          <b style="font-size: 16px;">Achievement Ontgrendeld!</b>
+          <br>
+          <i>Oog in Oog</i>
+        </div>
+      </div>
     </modal>
   </div>
 </template>
@@ -51,6 +65,7 @@ export default {
   components: { Modal },
   data() {
     return {
+      visible: false,
       modalVisible: false,
       currentModal: null,
       userName: localStorage.getItem('userName'),
@@ -69,6 +84,9 @@ export default {
         `,
         startedSpeaking: false,
     }
+  },
+  mounted() {
+    this.showToast();
   },
   directives: {
     typemachine: {
@@ -110,6 +128,12 @@ export default {
     }
   },
   methods: {
+    showToast() {
+      this.visible = true;
+      setTimeout(() => {
+        this.visible = false;
+      }, 4000);
+    },
     async startSpeak() {          
         this.startedSpeaking = true;    
          await TextToSpeech.speak({
@@ -157,4 +181,42 @@ export default {
 .murdererFoundText {
   margin: 0 0 1rem 0;
 } 
+
+.toast-container {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 90%;
+}
+
+.toast-message {
+  background-color: #18914a;
+  color: #fff;
+  padding: 12px 16px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  text-align: center;
+  animation: slide-in 0.3s ease-out, fade-out 0.3s ease-in 3.7s forwards;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
 </style>

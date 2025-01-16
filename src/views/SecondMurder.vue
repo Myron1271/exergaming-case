@@ -32,6 +32,7 @@ import { TextToSpeech } from '@capacitor-community/text-to-speech';
     components: { Modal },
     data() {
       return {
+        visible: false,
         modalVisible: false,
         currentModal: null,
         text: `
@@ -83,6 +84,12 @@ import { TextToSpeech } from '@capacitor-community/text-to-speech';
     }
   },
     methods: {
+    showToast() {
+      this.visible = true;
+      setTimeout(() => {
+        this.visible = false;
+      }, 3000);
+    },
       showModal(modalId) {
         this.currentModal = modalId;
         this.modalVisible = true;
@@ -129,5 +136,5 @@ import { TextToSpeech } from '@capacitor-community/text-to-speech';
 
 .secondMurderText {
   margin: 0 0 1rem 0;
-} 
+}
 </style>

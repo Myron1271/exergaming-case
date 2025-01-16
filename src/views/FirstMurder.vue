@@ -1,4 +1,11 @@
 <template>
+  <div v-if="visible" class="toast-container">
+    <div class="toast-message">
+      <b style="font-size: 16px;">Achievement Ontgrendeld!</b>
+      <br>
+      <i>Wat een manier om te beginnen...</i>
+    </div>
+  </div>
   <div class="firstMurder">
     <p class="firstMurderTitle">En zo begint het</p>
     <p class="firstMurderText" v-typemachine>
@@ -47,7 +54,14 @@
             ></canvas>
             <ion-button v-if="progress >= 60" class="canvasCleanedButton" size="small" shape="round" @click="goBackToMap" style="">
                 Ga terug naar de Map
-            </ion-button>
+            </ion-button>            
+            <div v-if="progress >=60" class="toast-container">
+              <div class="toast-message">
+                <b style="font-size: 16px;">Achievement Ontgrendeld!</b>
+                <br>
+                <i>Professionele Schoonmaker</i>
+              </div>
+            </div>
         </div>
       </div>
     </modal>
@@ -63,6 +77,7 @@ export default {
   components: { Modal },
   data() {
     return {
+      visible: false,
       modalVisible: false,
       currentModal: null,
       cleaning: false,
@@ -79,7 +94,16 @@ export default {
       startedSpeaking: false,
     };
   },
+  mounted() {
+    this.showToast();
+  },
   methods: {
+    showToast() {
+      this.visible = true;
+      setTimeout(() => {
+        this.visible = false;
+      }, 4000);
+    },
     showModal(modalId) {
       this.currentModal = modalId;
       this.modalVisible = true;
@@ -257,4 +281,41 @@ export default {
   z-index: 3;
 }
 
+.toast-container {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 90%;
+}
+
+.toast-message {
+  background-color: #18914a;
+  color: #fff;
+  padding: 12px 16px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  text-align: center;
+  animation: slide-in 0.3s ease-out, fade-out 0.3s ease-in 3.7s forwards;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
 </style>
